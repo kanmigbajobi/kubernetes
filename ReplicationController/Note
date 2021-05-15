@@ -1,0 +1,5 @@
+Replication Controller is one of the key features of Kubernetes, which is responsible for managing the pod lifecycle.
+It is responsible for making sure that the specified number of pod replicas are running at any point of time. 
+It is used in time when one wants to make sure that the specified number of pod or at least one pod is running. 
+It has the capability to bring up or down the specified no of pod.
+It is a best practice to use the replication controller to manage the pod life cycle rather than creating a pod again and again.
