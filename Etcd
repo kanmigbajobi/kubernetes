@@ -1,0 +1,11 @@
+Kubeadm defaults to running a single member etcd cluster in a static pod managed by the kubelet on the control plane node. This is not a high availability setup as the etcd cluster 
+contains only one member and cannot sustain any members becoming unavailable.
+As the primary datastore of Kubernetes, etcd stores and replicates all Kubernetes cluster states. Since it is a critical component of a Kubernetes cluster it is important that etcd has a reliable approach to its configuration and management.
+
+Because etcd is a distributed consensus-based system, the cluster configuration of etcd can be complicated. Bootstrapping, maintaining quorum, reconfiguring cluster membership, 
+creating backups, handling disaster recovery, and monitoring critical events are complex and tedious tasks requiring specialized expertise.
+
+All of this is made easier through use of the etcd Operator.
+For durability and high availability, run etcd as a multi-node cluster in production and back it up periodically. A five-member cluster is recommended in production.
+Kubeadm defaults to running a single member etcd cluster in a static pod managed by the kubelet on the control plane node. This is not a high availability setup as the etcd 
+cluster contains only one member and cannot sustain any members becoming unavailable.
