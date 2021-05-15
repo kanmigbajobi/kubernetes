@@ -1,7 +1,30 @@
 Kubeadm defaults to running a single member etcd cluster in a static pod managed by the kubelet on the control plane node. This is not a high availability setup as the etcd cluster 
 contains only one member and cannot sustain any members becoming unavailable.
 As the primary datastore of Kubernetes, etcd stores and replicates all Kubernetes cluster states. Since it is a critical component of a Kubernetes cluster it is important that etcd has a reliable approach to its configuration and management.
+The etcd Operator
+Using an Operator, which represents human operational knowledge, makes etcd easier to use on Kubernetes or a Kubernetes container platform, like Red Hat OpenShift. The etcd Operator manages etcd within the Operator Framework and serves to simplify etcd cluster configuration and management.
 
+The etcd Operator installs with a single command and allows users to configure and manage the complexities of etcd using simple declarative configuration that creates, configures, and manages etcd clusters.
+
+The etcd Operator provides the following features:
+
+Create/Destroy - Instead of specifying tedious configuration settings for each etcd member, users only need to specify the size of the cluster.
+
+Resize - Users only need to modify the size in spec and the etcd Operator will take care of deploying, destroying and/or reconfiguring cluster members.
+
+Backup - The etcd Operator performs backups automatically and transparently. Users only need to specify the backup policy. For example: Backup every 30 minutes and keep the last 3 backups.
+
+Upgrade - Upgrading etcd without downtime is a critical but difficult task. Doing it with the etcd Operator simplifies operations and avoids common upgrade errors.
+
+Start learning about the etcd Operator
+How it works
+The etcd Operator simulates human operator behaviors in 3 steps: observe, analyze, and act.
+
+The Operator observes the current cluster state by using the Kubernetes API.
+
+Then it finds the differences between the desired state and current state.
+
+Finally, it fixes the difference through one or both of the etcd cluster management APIs or the Kubernetes API.
 Because etcd is a distributed consensus-based system, the cluster configuration of etcd can be complicated. Bootstrapping, maintaining quorum, reconfiguring cluster membership, 
 creating backups, handling disaster recovery, and monitoring critical events are complex and tedious tasks requiring specialized expertise.
 
