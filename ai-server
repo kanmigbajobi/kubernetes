@@ -1,0 +1,7 @@
+The Kubernetes API is the front end of the Kubernetes control plane and is how users interact with their Kubernetes cluster. 
+The API (application programming interface) server determines if a request is valid and then processes it.
+
+In essence, the API is the interface used to manage, create, and configure Kubernetes clusters. It's how the users, external components, and parts of your cluster all communicate
+with each other.
+
+At the center of the Kubernetes control plane is the API server and the HTTP API that it exposes, allowing you to query and manipulate the state of Kubernetes objects. 
