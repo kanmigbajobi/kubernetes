@@ -1,0 +1,72 @@
+Production considerations :
+  * A production environment may require secure access by many users, consistent availability, and the resources to adapt to changing demands.
+  * vailability: A single-machine Kubernetes learning environment has a single point of failure. Creating a highly available cluster means considering:
+                  Separating the control plane from the worker nodes.
+                   Replicating the control plane components on multiple nodes.
+                  Load balancing traffic to the cluster’s API server.
+                  Having enough worker nodes available, or able to quickly become available, as changing workloads warrant it.
+   * Scale: If you expect your production Kubernetes environment to receive a stable amount of demand, you might be able to set up for the capacity you need and be done. 
+    However, if you expect demand to grow over time or change dramatically based on things like season or special events, you need to plan how to scale to relieve increased
+    pressure from more requests to the control plane and worker nodes or scale down to reduce unused resources.
+    *    Security and access management: You have full admin privileges on your own Kubernetes learning cluster. But shared clusters with important workloads, 
+      and more than one or two users, require a more refined approach to who and what can access cluster resources. You can use role-based access control (RBAC) 
+      and other security mechanisms to make sure that users and workloads can get access to the resources they need, while keeping workloads, and the cluster itself, secure. 
+      You can set limits on the resources that users and workloads can access by managing policies and container resources.
+      
+     
+PRODIUCTION CONTROL PLANE
+  * By design, one-machine control plane services running on a single machine are not highly available. If keeping the cluster up and running and 
+    ensuring that it can be repaired if something goes wrong is important, consider these steps:
+          * Choose deployment tools: You can deploy a control plane using tools such as kubeadm, kops, and kubespray. See Installing Kubernetes with deployment tools to learn
+            tips for production-quality deployments using each of those deployment methods. Different Container Runtimes are available to use with your deployments.
+           * Manage certificates: Secure communications between control plane services are implemented using certificates. Certificates are automatically generated during 
+             deployment or you can generate them using your own certificate authority. See PKI certificates and requirements for details.
+          * Manage certificates: Secure communications between control plane services are implemented using certificates. Certificates are automatically generated during 
+            deployment or you can generate them using your own certificate authority. See PKI certificates and requirements for details.
+          * Separate and backup etcd service: The etcd services can either run on the same machines as other control plane services or run on separate machines, 
+            for extra security and availability. Because etcd stores cluster configuration data, backing up the etcd database should be done regularly to ensure that you can 
+            repair that database if needed. See the etcd FAQ for details on configuring and using etcd. See Operating etcd clusters for Kubernetes and Set up a High Availability 
+            etcd cluster with kubeadm for details.
+          * Create multiple control plane systems: For high availability, the control plane should not be limited to a single machine. If the control plane services are run by 
+            an init service (such as systemd), each service should run on at least three machines. However, running control plane services as pods in Kubernetes ensures that the 
+            replicated number of services that you request will always be available. The scheduler should be fault tolerant, but not highly available. 
+            Some deployment tools set up Raft consensus algorithm to do leader election of Kubernetes services. If the primary goes away, another service elects itself and 
+            take over.
+          * Manage on-going features: If you plan to keep your cluster over time, there are tasks you need to do to maintain its health and security. 
+            For example, if you installed with kubeadm, there are instructions to help you with Certificate Management and Upgrading kubeadm clusters. 
+            See Administer a Cluster for a longer list of Kubernetes administrative tasks.
+            
+          * SPAN MULTIPLE AZ
+          * MANAGE ON GOING FEATURES
+          
+          
+      PRODUCTION WORKER NODES:
+        Production-quality workloads need to be resilient and anything they rely on needs to be resilient (such as CoreDNS). Whether you manage your own control plane or
+        have a cloud provider do it for you, you still need to consider how you want to manage your worker nodes (also referred to simply as nodes).
+        
+            * Us Autoscaler
+            * Set up Node healthcheck
+      
+      
+      
+      PRODUCTION USER MANAGEMENT
+      
+        * Taking on a production-quality cluster means deciding how you want to selectively allow access by other users. In particular, you need to select strategies for 
+          validating the identities of those who try to access your cluster (authentication) and deciding if they have permissions to do what they are asking (authorization):
+              * AUTHENTICATION: The apiserver can authenticate users using client certificates, bearer tokens, an authenticating proxy, or HTTP basic auth. You can choose which 
+                authentication methods you want to use. Using plugins, the apiserver can leverage your organization’s existing authentication methods, such as LDAP or Kerberos. 
+                See Authentication for a description of these different methods of authenticating Kubernetes users.
+            *AUTHORISATION: 
+                * RBAC
+                * ABAC
+                
+      SET LIMITS ON WORKLOAD RESOURCES
+      
+        * Set namespace limits: Set per-namespace quotas on things like memory and CPU. See Manage Memory, CPU, and API Resources for details. 
+          You can also set Hierarchical Namespaces for inheriting limits.
+        * Prepare for DNS demand: If you expect workloads to massively scale up, your DNS service must be ready to scale up as well. See Autoscale the DNS service in a Cluster.
+
+      
+          * 
+            
+       
